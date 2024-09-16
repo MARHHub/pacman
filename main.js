@@ -5,7 +5,7 @@
 let supabase;
 
 
-async function saveHighScore(name, score, team) {
+async function saveHighScore(name, score,) {
     let gameEndTime = new Date(); // Capture the end time in UTC
     let duration = (gameEndTime - gameStartTime) / 1000; // Calculate duration in seconds
 
@@ -21,7 +21,6 @@ async function saveHighScore(name, score, team) {
                 { 
                     name, 
                     score, 
-                    team,
                     time: playedAt, // Time when the game was played, adjusted to UTC+2
                     duration: duration // Duration of the game in seconds
                 }
@@ -97,7 +96,14 @@ function updateHighScoresUI(scores) {
         const rank = index + 1; // Calculate rank based on array position
         const listItem = document.createElement('li');
         listItem.textContent = `${rank}. ${score.name}: ${score.score}`;
-        listItem.className = `high-score-${score.team}`; // Apply color based on team
+        
+        // Apply alternating colours (green for even, yellow for odd)
+        if (index % 2 === 0) {
+            listItem.style.color = 'green';
+        } else {
+            listItem.style.color = 'yellow';
+        }
+
         scoresList.appendChild(listItem);
     });
 
@@ -105,6 +111,7 @@ function updateHighScoresUI(scores) {
         scoresList.innerHTML = '<li>No high scores yet!</li>';
     }
 }
+
 
 
 
@@ -140,16 +147,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function validateAndProceed(el) {
     const playerNameInput = document.getElementById('player-name').value.trim();
-    const teamSelectInput = document.getElementById('team-select').value;
 
-    if (!playerNameInput || !teamSelectInput) {
-        alert("Please enter your name and select a team before starting the game.");
+    if (!playerNameInput) {
+        alert("Please enter your name and before starting the game.");
         return; // Stop the function here if validation fails
     }
 
     // Set global variables or use them directly as needed
     playerName = playerNameInput;
-    playerTeam = teamSelectInput;
     document.getElementById('start-screen').style.display = 'none'; // Hide the start screen
 
     // Now initialize the game after the player clicks start and validation passes
@@ -175,19 +180,16 @@ function initializeGame() {
 
     // Set playerName and playerTeam in the game logic as needed
     window.playerName = gameState.playerName;
-    window.playerTeam = gameState.playerTeam;
 }
 
 function validateAndStartGame() {
     // Retrieve user input values
     const playerNameInput = document.getElementById('player-name').value.trim();
-    const teamSelect = document.getElementById('team-select');
-    const teamSelectValue = teamSelect.options[teamSelect.selectedIndex].value;
 
     // Perform validation check for player name and team selection
-    if (!playerNameInput || teamSelectValue === "") {
+    if (!playerNameInput === "") {
         // If validation fails, show an alert and prevent the game from starting
-        alert("Please enter your name and select a team before starting the game.");
+        alert("Please enter your name before starting the game.");
         return; // Exit the function to halt game start process
     }
 
@@ -196,7 +198,6 @@ function validateAndStartGame() {
 
     // Variables playerName and playerTeam are set for use in the game
     window.playerName = playerNameInput;
-    window.playerTeam = teamSelectValue;
 
     // Now that validation has passed, the game can be safely started
     startGameAfterValidation();
@@ -1128,7 +1129,7 @@ var PACMAN = (function () {
     
             if (!isScoreSaved) {
                 isScoreSaved = true;
-                saveHighScore(playerName, finalScore, playerTeam)
+                saveHighScore(playerName, finalScore)
                     .then(() => {
                         refreshAndDisplayScores(); // Refresh scores after saving
                     })
@@ -1461,15 +1462,13 @@ var PACMAN = (function () {
     
         startButton.addEventListener('click', function() {
             var playerNameInput = document.getElementById('player-name').value.trim();
-            var teamSelectInput = document.getElementById('team-select').value;
     
-            if (!playerNameInput || !teamSelectInput) {
+            if (!playerNameInput) {
                 // If validation fails, alert the user and do not start the game
-                alert("Please enter your name and select a team before starting the game.");
+                alert("Please enter your name before starting the game.");
             } else {
                 // If validation passes, hide the start screen and start the game
                 playerName = playerNameInput;
-                playerTeam = teamSelectInput;
                 document.getElementById('start-screen').style.display = 'none';
                 loaded(); // Now start the game
                 PACMAN.startNewGame();
