@@ -258,8 +258,8 @@ function loadGameImages() {
         eaten: 'ghostface_eaten.png'
     };
     let pacmanImageSources = {
-        regular: 'pacbear.png',
-        dead: 'pacbeadDead.png'
+        regular: 'player.png',
+        dead: 'player.png'
     };
 
     // Assign onload and onerror for ghost images
@@ -441,9 +441,9 @@ Pacman.Ghost = function (game, map, colour) {
     function getColour() { 
         if (eatable) { 
             if (secondsAgo(eatable) > 5) { 
-                return game.getTick() % 20 > 10 ? "#FFFFFF" : "#0000BB";
+                return game.getTick() % 20 > 10 ? "#yellow" : "#0000BB";
             } else { 
-                return "#0000BB";
+                return "#yellow";
             }
         } else if(eaten) { 
             return "#222";
@@ -776,7 +776,7 @@ Pacman.User = function (game, map) {
         var s = map.blockSize, 
             angle = calcAngle(direction, position);
     
-        ctx.fillStyle = "#white";
+        ctx.fillStyle = "#yellow";
         ctx.beginPath();        
         ctx.moveTo(((position.x/10) * s) + s / 2, ((position.y/10) * s) + s / 2);
         ctx.arc(((position.x/10) * s) + s / 2, ((position.y/10) * s) + s / 2, s / 2, Math.PI * angle.start, Math.PI * angle.end, angle.direction); 
@@ -843,7 +843,7 @@ Pacman.Map = function (size) {
 
         var i, j, p, line;
         //map colour
-        ctx.strokeStyle = "#B22B0E";
+        ctx.strokeStyle = "#01412a";
         ctx.lineWidth   = 5;
         ctx.lineCap     = "round";
         
@@ -974,7 +974,7 @@ Pacman.Map = function (size) {
                          blockSize, blockSize);
 
             if (layout === Pacman.BISCUIT) {
-                ctx.fillStyle = "#FFF";
+                ctx.fillStyle = "#fff700";
 		        ctx.fillRect((x * blockSize) + (blockSize / 2.5), 
                              (y * blockSize) + (blockSize / 2.5), 
                              blockSize / 6, blockSize / 6);
@@ -1050,7 +1050,7 @@ var PACMAN = (function () {
     }
 
     function drawScore(text, position) {
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "yellow";
         ctx.font      = "12px BDCartoonShoutRegular";
         ctx.fillText(text, 
                      (position["new"]["x"] / 10) * map.blockSize, 
@@ -1058,7 +1058,7 @@ var PACMAN = (function () {
     }
     
     function dialog(text) {
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "yellow";
         ctx.font      = "18px Calibri";
         var width = ctx.measureText(text).width,
             x     = ((map.width * map.blockSize) - width) / 2;        
@@ -1163,7 +1163,7 @@ var PACMAN = (function () {
         gameOverScreen.style.transform = 'translate(-50%, -50%)';
         gameOverScreen.style.zIndex = '1000';
         gameOverScreen.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-        gameOverScreen.style.color = 'white';
+        gameOverScreen.style.color = 'yellow';
         gameOverScreen.style.padding = '20px';
         gameOverScreen.style.textAlign = 'center';
         gameOverScreen.style.borderRadius = '10px';
@@ -1241,10 +1241,10 @@ var PACMAN = (function () {
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, topLeft, (map.width * map.blockSize), 30);
         
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "yellow";
 
         for (var i = 0, len = user.getLives(); i < len; i++) {
-            ctx.fillStyle = "white";
+            ctx.fillStyle = "yellow";
             ctx.beginPath();
             ctx.moveTo(150 + (25 * i) + map.blockSize / 2,
                        (topLeft+1) + map.blockSize / 2);
@@ -1260,7 +1260,7 @@ var PACMAN = (function () {
         //ctx.fillText("♪", 10, textBase);
         ctx.fillText("s", 10, textBase);
 
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "yellow";
         ctx.font      = "14px Calibri";
         ctx.fillText("Score: " + user.theScore(), 30, textBase);
         ctx.fillText("Level: " + level, 260, textBase);
