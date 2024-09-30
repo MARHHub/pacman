@@ -1172,6 +1172,7 @@ var PACMAN = (function () {
         gameOverScreen.innerHTML = `
             <h1>Game Over</h1>
             <p>Score: ${score}</p>
+            <p><span id="player-rank">calculating...</span></p>
             <button id="start-new-game-button" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Start New Game</button>
         `;
     
